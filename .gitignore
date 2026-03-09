@@ -1,0 +1,17 @@
+.gradle/
+build/
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+*.class
+*.log
+target/
+logs/
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+*.pid

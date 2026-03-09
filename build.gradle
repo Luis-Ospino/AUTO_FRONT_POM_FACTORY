@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'net.serenity-bdd.serenity-gradle-plugin' version '3.6.5'
+}
+
+group = 'com.frontend.pom'
+version = '1.0.0'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.cucumber:cucumber-java:7.14.0'
+    implementation 'io.cucumber:cucumber-junit-platform-engine:7.14.0'
+    
+    implementation 'net.serenity-bdd:serenity-core:3.6.5'
+    implementation 'net.serenity-bdd:serenity-cucumber:3.6.5'
+    implementation 'net.serenity-bdd:serenity-webdriver:3.6.5'
+    
+    implementation 'org.seleniumhq.selenium:selenium-java:4.14.1'
+    implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.14.1'
+    implementation 'org.seleniumhq.selenium:selenium-firefox-driver:4.14.1'
+    
+    testImplementation 'org.junit.platform:junit-platform-suite:1.9.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
+    
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
+}
+
+tasks.register('test', Test) {
+    useJUnitPlatform()
+    systemProperty 'serenity.project.name', 'Frontend POM Factory Automation'
+    systemProperty 'serenity.take.screenshots', 'FOR_EACH_ACTION'
+    systemProperty 'serenity.restart.browser.for.each', 'scenario'
+    systemProperty 'webdriver.chrome.driver.url', 'http://localhost:4444'
+}
+
+tasks.named('aggregate') {
+    dependsOn test
+}
+
+test {
+    finalizedBy 'aggregate'
+}
