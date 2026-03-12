@@ -1,27 +1,40 @@
 plugins {
     id 'java'
-    id 'net.serenity-bdd.serenity-gradle-plugin' version '3.6.5'
 }
 
 group = 'com.frontend.pom'
 version = '1.0.0'
-sourceCompatibility = '11'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 repositories {
     mavenCentral()
+    maven {
+        url = "https://repo1.maven.org/maven2"
+    }
+    maven {
+        url = "https://jcenter.bintray.com/"
+    }
+    maven {
+        url = "https://dl.bintray.com/serenity/maven/"
+    }
 }
 
 dependencies {
     implementation 'io.cucumber:cucumber-java:7.14.0'
     implementation 'io.cucumber:cucumber-junit-platform-engine:7.14.0'
     
-    implementation 'net.serenity-bdd:serenity-core:3.6.5'
-    implementation 'net.serenity-bdd:serenity-cucumber:3.6.5'
-    implementation 'net.serenity-bdd:serenity-webdriver:3.6.5'
+    implementation 'net.serenity-bdd:serenity-core:3.9.8'
+    implementation 'net.serenity-bdd:serenity-cucumber:3.9.8'
     
     implementation 'org.seleniumhq.selenium:selenium-java:4.14.1'
     implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.14.1'
     implementation 'org.seleniumhq.selenium:selenium-firefox-driver:4.14.1'
+    
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.6.3'
     
     testImplementation 'org.junit.platform:junit-platform-suite:1.9.3'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
@@ -31,18 +44,10 @@ dependencies {
     implementation 'ch.qos.logback:logback-classic:1.4.11'
 }
 
-tasks.register('test', Test) {
+test {
     useJUnitPlatform()
     systemProperty 'serenity.project.name', 'Frontend POM Factory Automation'
+    systemProperty 'serenity.test.root', 'com.frontend.pom'
     systemProperty 'serenity.take.screenshots', 'FOR_EACH_ACTION'
     systemProperty 'serenity.restart.browser.for.each', 'scenario'
-    systemProperty 'webdriver.chrome.driver.url', 'http://localhost:4444'
-}
-
-tasks.named('aggregate') {
-    dependsOn test
-}
-
-test {
-    finalizedBy 'aggregate'
 }
